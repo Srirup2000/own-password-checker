@@ -1,0 +1,30 @@
+#####################################################################################################################################
+import requests
+import hashlib
+
+def request_api_data(query_char):
+  url2='https://api.pwnedpasswords.com/range/'+ query_char
+  res2=requests.get(url2)
+  if res2.status_code !=200:
+    raise RuntimeError(f'Error fetching:{res2.status_code}, check the api and try again')
+  return res2
+request_api_data('123')
+
+
+def read_res(response):
+  print(response.text)
+
+
+
+
+def pwned_api_chk(password):
+  # check pswrd if it exits in this api response
+  # print(hashlib.sha1(password.encode('utf-8')).hexdigest().upper())
+  sha1pass=hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
+  frist5_char, tail = sha1pass[:5], sha1pass[5:]
+  responce =request_api_data(frist5_char)
+  print(frist5_char, tail)
+  print(responce)
+  return read_res(responce)
+#########################################################3##########################################################################
+pwned_api_chk('123')
